@@ -7,10 +7,22 @@
 
 <script>
   import NavBar from "../../components/common/navbar/NavBar";
-    export default {
+  import {getHomeMultidata} from "../../network/home";
+
+  export default {
         name: "Home",
+        data(){
+            return{
+              result:null
+            }
+        },
         components:{
           NavBar
+        },
+        created() {
+            getHomeMultidata().then(data=>{
+                this.result = data;
+            })
         }
     }
 </script>
