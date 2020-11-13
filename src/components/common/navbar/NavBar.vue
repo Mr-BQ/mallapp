@@ -13,17 +13,20 @@
 </script>
 
 <style scoped>
-    .nav-bar{
+    .navbar{
         display: flex;
         height: 44px;
+        text-align: center;
+        line-height: 44px;
+        box-shadow: 0 2px 1px rgba(100,100,100,.1);
     }
     .left,.right{
         width:60px;
-        background-color: dodgerblue;
+
     }
     .center{
         flex: 1;
-        background-color: lightskyblue;
+
     }
 
 </style>
