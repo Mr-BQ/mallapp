@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #outter{
+            height: 250px;
+            width:380px;
+            border: 5px solid dodgerblue;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            display: flex;
+            flex-direction: column;
+
+        }
+        #pics{
+            display: flex;
+            overflow: hidden;
+
+        }
+
+        .pic{
+            height:250px;
+            width:380px;
+            flex-shrink: 0;
+            margin-right: 5px;
+        }
+        #index{
+            height: 10px;
+
+            margin-top: -30px;
+            display: flex;
+            justify-content: center;
+        }
+        .ind_item{
+            height: 10px;
+            width: 10px;
+            background-color: black;
+            margin: 0 5px;
+        }
+        .ind_item:hover{
+            background-color: yellow;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="outter">
+        <div id="pics">
+            <div class="pic" style="background-color: hotpink;">
+                1
+            </div>
+            <div class="pic" style="background-color: lightskyblue">
+                2
+            </div>
+            <div class="pic" style="background-color: #ff8198">
+                3
+            </div>
+            <div class="pic" style="background-color: green;">
+                4
+            </div>
+            <div class="pic" style="background-color: hotpink;">
+                1
+            </div>
+        </div>
+
+        <div id="index">
+            <div class="ind_item"></div>
+            <div class="ind_item"></div>
+            <div class="ind_item"></div>
+            <div class="ind_item"></div>
+        </div>
+    </div>
+    <script>
+        let pics = document.getElementsByClassName('pic')
+        let ind_items = document.getElementsByClassName('ind_item')
+        let picamt = pics.length;
+
+        let index = 0
+        let timer
+        let target = 0
+        let lunbotimer
+        ind_items[index].style.backgroundColor = 'yellow'
+
+        lunbo()
+        for(let i=0;i<picamt;i++){
+            ind_items[i].onclick = function () {
+                clearInterval(lunbotimer)
+                index = i
+                setind()
+                // pics[0].style.marginLeft = -385*index + 'px'
+                move(20,-385*index,function () {
+                    lunbo()
+                })
+            }
+        }
+
+        function lunbo() {
+            lunbotimer = setInterval(function () {
+                index = (index+1)%pics.length
+                move(10,-385*index,function () {
+                    if(index == pics.length-1){
+                        index = 0
+                        pics[0].style.marginLeft = 0
+                    }
+                    setind()
+
+                })
+            },3000)
+        }
+
+        function move(speed,target,callback) {
+            clearInterval(timer)
+            let currentval = parseInt(getComputedStyle(pics[0],null)['marginLeft'])
+            if(target < currentval){//如果目标位置小于当前位置，说明向左移动，speed为负数
+                speed = -speed
+            }
+            timer = setInterval(function () {
+                let oldval = parseInt(getComputedStyle(pics[0],null)['marginLeft'])
+                let newval = oldval + speed
+                if( (speed > 0 && newval > target) || (speed < 0 && newval < target)){
+                    newval = target
+                }
+                pics[0].style.marginLeft = newval + 'px'
+                if(newval == target){
+                    clearInterval(timer)
+                    callback && callback()
+                }
+            },20)
+        }
+
+        function setind() {
+            // if(index == pics.length-1){
+            //     index = 0
+            // }
+
+            for(let i=0;i<ind_items.length;i++){
+                ind_items[i].style.backgroundColor = ''
+            }
+            ind_items[index].style.backgroundColor = 'yellow'
+        }
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
