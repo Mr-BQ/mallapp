@@ -9,14 +9,22 @@
 </template>
 
 <script>
-    import lunbo from "../common/lunbo/lunbo";
-    import lunboitem from "../common/lunbo/lunboitem";
+    import lunbo from "../../../components/common/lunbo/lunbo";
+    import lunboitem from "../../../components/common/lunbo/lunboitem";
     export default {
         name: "mainlunbo",
-        props:['list'],
+        props:{
+            list:{
+                type:Array,
+                default:[]
+            }
+        },
         components:{
             lunbo,
             lunboitem
+        },
+        mounted() {
+            this.list.push(this.list[0])
         }
     }
 </script>

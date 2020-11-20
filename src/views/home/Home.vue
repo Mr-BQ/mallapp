@@ -1,7 +1,8 @@
 <template>
   <div id="home">
     <nav-bar class="navbar"><div slot="center">EMALL</div></nav-bar>
-    <homelunbo :list="list"></homelunbo>
+    <homelunbo :list="data.banner.list"></homelunbo>
+    <Recommend :recommend="data.recommend.list"></Recommend>
   </div>
 
 </template>
@@ -11,24 +12,24 @@
   import lunbo from "../../components/common/lunbo/lunbo";
   import lunboitem from "../../components/common/lunbo/lunboitem";
   import {getHomeMultidata} from "../../network/home";
-  import homelunbo from "../../components/content/homelunbo";
-
+  import homelunbo from "./childcomponent/homelunbo";
+  import Recommend from "./childcomponent/Recommend";
   export default {
         name: "Home",
         data(){
             return{
-              list:[]
+              data:null
             }
         },
         components:{
           NavBar,
-          homelunbo
+          homelunbo,
+          Recommend
         },
         created() {
             getHomeMultidata().then(data=>{
-                this.list = data.data.banner.list
-                this.list.push(this.list[0])//将最后一张图片放到最后，进行衔接
-                console.log(this.list);
+                this.data = data.data
+                console.log(this.data);
             })
         }
     }
