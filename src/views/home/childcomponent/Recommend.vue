@@ -36,7 +36,9 @@
     .recommend_item{
         text-align: center;
         margin: 0 3%;
-
+    }
+    .recommend_item p{
+        color:darkgrey;
     }
 
 

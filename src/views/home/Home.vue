@@ -3,6 +3,7 @@
     <nav-bar class="navbar"><div slot="center">EMALL</div></nav-bar>
     <homelunbo :list="data.banner.list"></homelunbo>
     <Recommend :recommend="data.recommend.list"></Recommend>
+    <Fashion/>
   </div>
 
 </template>
@@ -14,6 +15,8 @@
   import {getHomeMultidata} from "../../network/home";
   import homelunbo from "./childcomponent/homelunbo";
   import Recommend from "./childcomponent/Recommend";
+  import Fashion from "./childcomponent/Fashion";
+
   export default {
         name: "Home",
         data(){
@@ -24,7 +27,8 @@
         components:{
           NavBar,
           homelunbo,
-          Recommend
+          Recommend,
+          Fashion
         },
         created() {
             getHomeMultidata().then(data=>{
@@ -40,5 +44,13 @@
     font-size: 20px;
     background-color: dodgerblue;
     color: #fff;
+    position: fixed;
+    top:0;
+    left: 0;
+    right:0;
+  }
+  #home{
+    height: 1000px;
+    padding-top: 43px;
   }
 </style>
