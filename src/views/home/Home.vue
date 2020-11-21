@@ -11,7 +11,7 @@
 
 <script>
   import NavBar from "../../components/common/navbar/NavBar";
-  import {getHomeMultidata} from "../../network/home";
+  import {getHomeMultidata,getHomeGoods} from "../../network/home";
   import homelunbo from "./childcomponent/homelunbo";
   import Recommend from "./childcomponent/Recommend";
   import Fashion from "./childcomponent/Fashion";
@@ -21,7 +21,12 @@
         name: "Home",
         data(){
             return{
-              data:null
+              data:null,
+              goods:{
+                pop:{page:0,list:[]},
+                new:{page:0,list:[]},
+                chosen:{page:0,list:[]}
+              }
             }
         },
         components:{
@@ -36,6 +41,11 @@
                 this.data = data.data
                 console.log(this.data);
             })
+
+            getHomeGoods('pop',1).then(data=>{
+              console.log(data);
+            })
+
         }
     }
 </script>
