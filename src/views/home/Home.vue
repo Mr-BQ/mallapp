@@ -4,18 +4,18 @@
     <homelunbo :list="data.banner.list"></homelunbo>
     <Recommend :recommend="data.recommend.list"></Recommend>
     <Fashion/>
+    <tab-control class="tabcontrol" :list="['流行','新款','精选']"></tab-control>
   </div>
 
 </template>
 
 <script>
   import NavBar from "../../components/common/navbar/NavBar";
-  import lunbo from "../../components/common/lunbo/lunbo";
-  import lunboitem from "../../components/common/lunbo/lunboitem";
   import {getHomeMultidata} from "../../network/home";
   import homelunbo from "./childcomponent/homelunbo";
   import Recommend from "./childcomponent/Recommend";
   import Fashion from "./childcomponent/Fashion";
+  import TabControl from "../../components/content/TabControl";
 
   export default {
         name: "Home",
@@ -28,7 +28,8 @@
           NavBar,
           homelunbo,
           Recommend,
-          Fashion
+          Fashion,
+          TabControl
         },
         created() {
             getHomeMultidata().then(data=>{
@@ -50,7 +51,11 @@
     right:0;
   }
   #home{
-    height: 1000px;
+    height: 5000px;
     padding-top: 43px;
+  }
+  .tabcontrol{
+    position: sticky;
+    top:44px
   }
 </style>
