@@ -1,6 +1,7 @@
 <template>
     <div class="tabcontrol">
-        <div v-for="(item,index) in list" :key="index" :class="{active:index == curindex}" @click="curindex=index" class="tabctrl_item">
+        <div v-for="(item,index) in list" :key="index" :class="{active:index == curindex}"
+             @click="tabclick(index)" class="tabctrl_item">
             <span>{{item}}</span>
         </div>
     </div>
@@ -18,6 +19,12 @@
             list:{
                 type:Array,
                 default:[]
+            }
+        },
+        methods:{
+            tabclick(index){
+                this.curindex = index
+                this.$emit('tabclick',index)
             }
         }
     }

@@ -1,5 +1,5 @@
 <template>
-    <lunbo :piccnt="list.length">
+    <lunbo :piccnt="list.length-2">
         <lunboitem v-for="(item,index) in list" slot="pic" :key="index">
             <a :href="item.link">
                 <img :src="item.image" :alt="item.title">
@@ -24,7 +24,10 @@
             lunboitem
         },
         mounted() {
-            this.list.push(this.list[0])
+            let first = this.list[0]
+            let last = this.list[this.list.length-1]
+            this.list.push(first)
+            this.list.unshift(last)
         }
     }
 </script>

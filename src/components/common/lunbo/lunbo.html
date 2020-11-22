@@ -81,40 +81,97 @@
     <script>
         let pics = document.getElementsByClassName('pic')
         let ind_items = document.getElementsByClassName('ind_item')
+        let pic = document.getElementById('pics')
         let picamt = pics.length;
-
+        let islunbo = true
         let index = 0
         let timer
-        let target = 0
+        let isscolling = false
+        let distance
+
+        let startX
         let lunbotimer
         ind_items[index].style.backgroundColor = 'yellow'
 
+
+
+        pic.ontouchstart = function(event){
+            if(isscolling){
+                return
+            }
+            clearInterval(lunbotimer)
+            islunbo = false
+            startX = event.touches[0].pageX
+            console.log('startX = ' + startX)
+        }
+
+        pic.ontouchmove = function(event){
+            let currentX = event.touches[0].pageX
+            distance = currentX-startX
+            pics[0].style.marginLeft = parseInt(pics[0].style.marginLeft) + distance + 'px'
+
+        }
+        pic.ontouchend = function(event){
+            let move = Math.abs(distance)
+            if(distance == 0){
+                return
+            }else if(distance > 0 && move > 385 * 0.3){
+                index = (index+1)%pics.length
+                scollContent(-385*index)
+            }else if(distance < 0 && move > 385 * 0.3 ){
+                index = (index-1)%pics.length
+                scollContent(-385*index)
+            }else{
+                scollContent(-385*index)
+            }
+        }
+
+
+
         lunbo()
-        for(let i=0;i<picamt;i++){
+        for(let i=0;i<picamt-1;i++){
             ind_items[i].onclick = function () {
                 clearInterval(lunbotimer)
+                islunbo = false
                 index = i
                 setind()
                 // pics[0].style.marginLeft = -385*index + 'px'
-                move(20,-385*index,function () {
-                    lunbo()
-                })
+                // move(20,-385*index,function () {
+                //     lunbo()
+                // })
+                scollContent(-385*index)
             }
+
         }
 
         function lunbo() {
             lunbotimer = setInterval(function () {
                 index = (index+1)%pics.length
-                move(10,-385*index,function () {
-                    if(index == pics.length-1){
-                        index = 0
-                        pics[0].style.marginLeft = 0
-                    }
-                    setind()
-
-                })
+                // move(10,-385*index,function () {
+                //     if(index == pics.length-1){
+                //         index = 0
+                //         pics[0].style.marginLeft = '0px'
+                //     }
+                //     setind()
+                //
+                // })
+                scollContent(-385*index)
             },3000)
         }
+
+        pics[0].addEventListener('transitionend',()=>{
+            if(index == pics.length-1){
+                index = 0
+                pics[0].style.transition = '0ms'
+                pics[0].style.marginLeft = '0px'
+            }
+            setind()
+            if(!islunbo){
+                islunbo = true
+                lunbo()
+            }
+            isscolling = false
+        })
 
         function move(speed,target,callback) {
             clearInterval(timer)
@@ -134,6 +191,12 @@
                     callback && callback()
                 }
             },20)
+        }
+
+        function scollContent(target){
+            isscolling = true;
+            pics[0].style.transition = 'margin-left 1s'
+            pics[0].style.marginLeft = target + 'px'
         }
 
         function setind() {
