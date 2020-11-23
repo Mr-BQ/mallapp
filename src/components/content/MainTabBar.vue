@@ -39,6 +39,6 @@
 
 <style scoped>
     .maintabbar{
-        z-index: 9;
+        /*z-index: 9;*/
     }
 </style>

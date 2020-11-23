@@ -19,4 +19,7 @@
 
 <style>
   @import './assets/css/base.css';
+  .maintabbar{
+    z-index: 10;
+  }
 </style>

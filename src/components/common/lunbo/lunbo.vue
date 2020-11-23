@@ -30,25 +30,27 @@
             }
         },
         mounted() {
+            //通过改变第一张slide的margin-left值实现滑动效果
             this.slide1 = document.getElementsByClassName('slide')[0]
             this.picsize = parseInt(getComputedStyle(this.slide1,null)['width'])
             this.slide1.style.marginLeft = (-1)*this.picsize + 'px'
+            //监听滑动事件，滑动结束后进行其他操作，相当于回调函数
             this.slide1.addEventListener('transitionend',()=>{
-                if(this.curindex == this.piccnt){
+                if(this.curindex == this.piccnt){//如果是滑动到最后一张，马上切换回第一张
                     this.curindex = 0
                     this.slide1.style.transition = '0ms'
                     this.slide1.style.marginLeft = -this.picsize + 'px'
                 }
-                if(this.curindex == -1){
+                if(this.curindex == -1){//如果滑动到第一张，马上切换到最后一张
                     this.curindex = this.piccnt-1
                     this.slide1.style.transition = '0ms'
                     this.slide1.style.marginLeft = -this.picsize*(this.curindex+1) + 'px'
                 }
-                if(!this.islunbo){
+                if(!this.islunbo){//如果轮播关闭了，开启轮播
                     this.islunbo = true
                     this.lunbo()
                 }
-                this.isscolling = false
+                this.isscolling = false //设置不在滑动
             })
             this.lunbo()
         },
@@ -59,15 +61,15 @@
                 }
                 clearInterval(this.lunbotimer)
                 this.islunbo = false
-                this.startX = e.touches[0].pageX
+                this.startX = e.touches[0].pageX//滑动开始，记录滑动开始的位置
 
             },
             touchMove(e){
                 let currentX = e.touches[0].pageX
 
-                this.distance = currentX - this.startX
+                this.distance = currentX - this.startX//计算当前位置与开始位置的距离
                 this.slide1.style.transition = 'margin-left 0ms'
-                this.slide1.style.marginLeft = (this.curindex+1)*this.picsize*(-1) + this.distance + 'px'
+                this.slide1.style.marginLeft = (this.curindex+1)*this.picsize*(-1) + this.distance + 'px'//更新滑动位置
 
             },
             touchEnd(e){
@@ -75,15 +77,14 @@
 
                 if(this.distance == 0){
                     return
-                }else if(this.distance > 0 && move > this.picsize * 0.3){
+                }else if(this.distance > 0 && move > this.picsize * 0.3) {//{如果滑动距离大于图片宽度的0.3，则认为滑动到上/下一张
                     this.curindex--
-
                 }else if(this.distance < 0 && move > this.picsize * 0.3 ){
                     this.curindex++
                 }
                 this.scoll(this.slide1,(-1)*this.picsize*(this.curindex+1))
             },
-            changeindex(index){
+            changeindex(index){//点击小圆点切换图片
                 clearInterval(this.lunbotimer)
                 this.islunbo = false
                 this.curindex = index
@@ -93,7 +94,7 @@
                 // })
                 this.scoll(this.slide1,(-1)*this.picsize*(this.curindex+1))
             },
-            scoll(obj,target){
+            scoll(obj,target){//滑动函数，滑动到target位置
                 // if(parseInt(getComputedStyle(obj,null)['marginLeft']) == target){
                 //     return
                 // }
@@ -120,7 +121,7 @@
             //         }
             //     },20)
             // },
-            lunbo(){
+            lunbo(){//设置轮播
                 this.lunbotimer = setInterval(()=> {
                     this.curindex = (this.curindex+1)%(this.piccnt+1)
                     this.scoll(this.slide1,(-1)*this.picsize*(this.curindex+1))
