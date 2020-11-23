@@ -1,14 +1,14 @@
 <template>
   <div id="home">
     <nav-bar class="navbar"><div slot="center">EMALL</div></nav-bar>
-    <Scroll class="content" ref="scroll">
+    <Scroll class="content" ref="scroll" :probetype="3" @scrollContent="scrollcontent">
       <homelunbo :list="data.banner.list"></homelunbo>
       <Recommend :recommend="data.recommend.list"></Recommend>
       <Fashion/>
       <tab-control class="tabcontrol" :list="['流行','新款','精选']" @tabclick="changegood"></tab-control>
       <good-list class="goodlist" :goods="showgood" ></good-list>
     </Scroll>
-    <back-top @click.native="backTopClick"></back-top> <!-监听组件事件，要加上.native>
+    <back-top @click.native="backTopClick" v-show="isShowBackTop"></back-top> <!-监听组件事件，要加上.native>
 
   </div>
 
@@ -35,7 +35,8 @@
                 new:{page:0,list:[]},
                 sell:{page:0,list:[]}
               },
-              curtab:'pop'
+              curtab:'pop',
+              isShowBackTop:false
             }
         },
         components:{
@@ -60,6 +61,9 @@
           }
         },
         methods:{
+          scrollcontent(position){
+            this.isShowBackTop  = (-position.y) > 1000
+          },
           backTopClick(){//回到顶部
             this.$refs.scroll.scroll.scrollTo(0,0,1000)//获取子组件Scroll的scroll实例，并调用其scrollTo方法
           },
