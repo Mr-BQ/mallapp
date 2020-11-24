@@ -1,7 +1,8 @@
 <template>
   <div id="home">
     <nav-bar class="navbar"><div slot="center">EMALL</div></nav-bar>
-    <Scroll class="content" ref="scroll" :probetype="3" @scrollContent="scrollcontent">
+    <Scroll class="content" ref="scroll" :probetype="3"
+            :pullupLoad="ispullUpLoad" @pullup="loadmore" @scrollContent="scrollcontent">
       <homelunbo :list="data.banner.list"></homelunbo>
       <Recommend :recommend="data.recommend.list"></Recommend>
       <Fashion/>
@@ -36,7 +37,8 @@
                 sell:{page:0,list:[]}
               },
               curtab:'pop',
-              isShowBackTop:false
+              isShowBackTop:false,
+              ispullUpLoad:false
             }
         },
         components:{
@@ -61,6 +63,12 @@
           }
         },
         methods:{
+          loadmore(){
+            this.getHomegoods(this.curtab)
+
+
+
+          },
           scrollcontent(position){
             this.isShowBackTop  = (-position.y) > 1000
           },
@@ -89,6 +97,10 @@
             let page = ++this.goods[type].page
             getHomeGoods(type,page).then(data=>{
               this.goods[type].list.push(...data.data.list)
+              if(this.$refs.scroll.scroll){
+                  this.$refs.scroll.scroll.finishPullUp()
+              }
+
             })
           }
         }
