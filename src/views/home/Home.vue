@@ -57,17 +57,34 @@
           this.getHomegoods('new')
           this.getHomegoods('sell')
         },
-        computed:{
+        updated() {
+          let refresh = null
+          if(!refresh){
+            refresh = this.debounce(this.$refs.scroll.refresh,200)
+            this.$bus.$on('loadimg',()=>{
+              refresh()
+            })
+          }
+        },
+    computed:{
           showgood(){
             return this.goods[this.curtab].list
           }
         },
         methods:{
+          debounce(func,delay){//防抖函数
+            let timer = null
+            return function () {
+              if(timer){
+                clearTimeout(timer)
+              }
+              timer = setTimeout(()=>{
+                func.apply(this)
+              },delay)
+            }
+          },
           loadmore(){
             this.getHomegoods(this.curtab)
-
-
-
           },
           scrollcontent(position){
             this.isShowBackTop  = (-position.y) > 1000

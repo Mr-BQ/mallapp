@@ -47,7 +47,13 @@
             },200)
         },
         updated() {
-            this.scroll.refresh()
+            // this.scroll.refresh()
+        },
+        methods:{
+            refresh(){
+                console.log('refresh')
+                this.scroll && this.scroll.refresh()
+            }
         }
 
     }
