@@ -1,0 +1,24 @@
+<template>
+    <div class="detail">
+        {{iid}}
+    </div>
+
+</template>
+
+<script>
+    export default {
+        name: "Detail",
+        data(){
+            return{
+                iid:null
+            }
+        },
+        activated() {
+            this.iid = this.$route.params.iid
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

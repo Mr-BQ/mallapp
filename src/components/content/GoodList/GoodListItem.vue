@@ -1,5 +1,5 @@
 <template>
-    <div class="goodlistitem">
+    <div class="goodlistitem" @click="todetail">
         <img :src="good.show.img" alt="good.title" @load="imgload">
         <div class="content">
             <p>{{good.title}}</p>
@@ -21,6 +21,9 @@
         methods:{
             imgload(){
                 this.$bus.$emit('loadimg')
+            },
+            todetail(){
+                this.$router.push('/Detail/' + this.good.iid)
             }
         }
     }

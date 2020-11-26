@@ -9,7 +9,8 @@ const routes = [
     path: '/',
     redirect:'/Home'
     // component: () => import('../views/home/Home')
-  },{
+  },
+  {
     path: '/Home',
     name: 'Home',
     component: () => import('../views/home/Home')
@@ -21,14 +22,21 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import('../views/category/Category')
-  },{
+  },
+  {
     path: '/Cart',
     name: 'Cart',
     component: () => import('../views/cart/Cart')
-  },{
+  },
+  {
     path: '/Profile',
     name: 'Profile',
     component: () => import('../views/profile/Profile')
+  },
+  {
+    path: '/Detail/:iid',
+    name: 'Detail',
+    component: () => import('../views/detail/Detail')
   }
 ]
 

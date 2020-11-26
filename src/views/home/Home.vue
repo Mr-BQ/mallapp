@@ -1,15 +1,16 @@
 <template>
   <div id="home">
     <nav-bar class="navbar"><div slot="center">EMALL</div></nav-bar>
+    <tab-control ref="tab2" class="tabcontrol2" v-show="isfixed" :list="['流行','新款','精选']" @tabclick="changegood"></tab-control>
     <Scroll class="content" ref="scroll" :probetype="3"
             :pullupLoad="ispullUpLoad" @pullup="loadmore" @scrollContent="scrollcontent">
       <homelunbo :list="data.banner.list"></homelunbo>
       <Recommend :recommend="data.recommend.list"></Recommend>
       <Fashion/>
-      <tab-control class="tabcontrol" :list="['流行','新款','精选']" @tabclick="changegood"></tab-control>
+      <tab-control ref="tab1" :list="['流行','新款','精选']" @tabclick="changegood"></tab-control>
       <good-list class="goodlist" :goods="showgood" ></good-list>
     </Scroll>
-    <back-top @click.native="backTopClick" v-show="isShowBackTop"></back-top> <!-监听组件事件，要加上.native>
+    <back-top @click.native="backTopClick" v-show="isShowBackTop"></back-top> <!--监听组件事件，要加上.native-->
 
   </div>
 
@@ -25,6 +26,7 @@
   import GoodList from "../../components/content/GoodList/GoodList";
   import Scroll from "../../components/common/scroll/Scroll";
   import BackTop from "../../components/content/backtop/BackTop";
+  import {debounce} from "../../common/utils";
 
   export default {
         name: "Home",
@@ -38,7 +40,10 @@
               },
               curtab:'pop',
               isShowBackTop:false,
-              ispullUpLoad:false
+              ispullUpLoad:false,
+              imginitial:false,
+              taboffsetheight:0,
+              isfixed:false
             }
         },
         components:{
@@ -60,11 +65,12 @@
         updated() {
           let refresh = null
           if(!refresh){
-            refresh = this.debounce(this.$refs.scroll.refresh,200)
+            refresh = debounce(this.$refs.scroll.refresh,200)
             this.$bus.$on('loadimg',()=>{
               refresh()
             })
           }
+          this.taboffsetheight = this.$refs.tab1.$el.offsetTop
         },
     computed:{
           showgood(){
@@ -72,22 +78,12 @@
           }
         },
         methods:{
-          debounce(func,delay){//防抖函数
-            let timer = null
-            return function () {
-              if(timer){
-                clearTimeout(timer)
-              }
-              timer = setTimeout(()=>{
-                func.apply(this)
-              },delay)
-            }
-          },
           loadmore(){
             this.getHomegoods(this.curtab)
           },
           scrollcontent(position){
             this.isShowBackTop  = (-position.y) > 1000
+            this.isfixed = (-position.y) > this.taboffsetheight
           },
           backTopClick(){//回到顶部
             this.$refs.scroll.scroll.scrollTo(0,0,1000)//获取子组件Scroll的scroll实例，并调用其scrollTo方法
@@ -103,6 +99,8 @@
               case 2:
                 this.curtab = 'sell'
             }
+            this.$refs.tab1.curindex = index
+            this.$refs.tab2.curindex = index
           },
           getHomemultidata(){
             getHomeMultidata().then(data=>{
@@ -129,11 +127,6 @@
     font-size: 20px;
     background-color: dodgerblue;
     color: #fff;
-    position: fixed;
-    top:0;
-    left: 0;
-    right:0;
-    z-index: 9;
   }
   #home{
     /*height: 5000px;*/
@@ -141,12 +134,12 @@
     /*position: relative;*/
 
   }
-  .tabcontrol{
+  .tabcontrol2{
     /*position: sticky;*/
     /*top:44px;*/
     background-color: #fff;
+    position: relative;
     z-index: 5;
-
   }
   .goodlist{
     margin-bottom: 100px;
