@@ -1,11 +1,14 @@
 <template>
-    <lunbo :piccnt="list.length-2">
-        <lunboitem v-for="(item,index) in list" slot="pic" :key="index">
-            <a :href="item.link">
-                <img :src="item.image" :alt="item.title">
-            </a>
-        </lunboitem>
-    </lunbo>
+    <div class="homelunbo">
+        <lunbo :piccnt="list.length-2">
+            <lunboitem v-for="(item,index) in list" slot="pic" :key="index">
+                <a :href="item.link">
+                    <img :src="item.image" :alt="item.title">
+                </a>
+            </lunboitem>
+        </lunbo>
+    </div>
+
 </template>
 
 <script>
@@ -33,5 +36,7 @@
 </script>
 
 <style scoped>
-
+    .homelunbo{
+        position: relative;
+    }
 </style>

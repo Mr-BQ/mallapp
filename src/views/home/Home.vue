@@ -4,8 +4,8 @@
     <tab-control ref="tab2" class="tabcontrol2" v-show="isfixed" :list="['流行','新款','精选']" @tabclick="changegood"></tab-control>
     <Scroll class="content" ref="scroll" :probetype="3"
             :pullupLoad="ispullUpLoad" @pullup="loadmore" @scrollContent="scrollcontent">
-      <homelunbo :list="data.banner.list"></homelunbo>
-      <Recommend :recommend="data.recommend.list"></Recommend>
+      <homelunbo v-if="data != null" :list="data.banner.list"></homelunbo>
+      <Recommend v-if="data != null" :recommend="data.recommend.list"></Recommend>
       <Fashion/>
       <tab-control ref="tab1" :list="['流行','新款','精选']" @tabclick="changegood"></tab-control>
       <good-list class="goodlist" :goods="showgood" ></good-list>
@@ -28,11 +28,12 @@
   import BackTop from "../../components/content/backtop/BackTop";
   import {debounce} from "../../common/utils";
 
+
   export default {
         name: "Home",
         data(){
             return{
-              data:{banner:{}},
+              data:null,
               goods:{
                 pop:{page:0,list:[]},
                 new:{page:0,list:[]},

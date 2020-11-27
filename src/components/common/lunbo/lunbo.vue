@@ -3,7 +3,6 @@
         <div id="pics" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
             <slot name="pic"></slot>
         </div>
-
         <div id="index">
             <slot name="ind_item">
                 <div v-for="index in piccnt" :key="index" class="ind_item" :class="{active:index-1 == curindex}" @click="changeindex(index-1)"></div>
@@ -23,7 +22,7 @@
                 lunbotimer:null,
                 isscolling:false,
                 islunbo:true,
-                slide1:null,
+                slide1: {},
                 startX:0,
                 distance:0,
                 picsize:0
@@ -65,6 +64,9 @@
 
             },
             touchMove(e){
+                if(this.isscolling){
+                    return
+                }
                 let currentX = e.touches[0].pageX
 
                 this.distance = currentX - this.startX//计算当前位置与开始位置的距离
@@ -73,6 +75,9 @@
 
             },
             touchEnd(e){
+                if(this.isscolling){
+                    return
+                }
                 let move = Math.abs(this.distance)
 
                 if(this.distance == 0){
@@ -82,7 +87,7 @@
                 }else if(this.distance < 0 && move > this.picsize * 0.3 ){
                     this.curindex++
                 }
-                this.scoll(this.slide1,(-1)*this.picsize*(this.curindex+1))
+                this.scoll(this.slide1,(-1)*this.picsize*(this.curindex+1),500)
             },
             changeindex(index){//点击小圆点切换图片
                 clearInterval(this.lunbotimer)
@@ -94,12 +99,12 @@
                 // })
                 this.scoll(this.slide1,(-1)*this.picsize*(this.curindex+1))
             },
-            scoll(obj,target){//滑动函数，滑动到target位置
+            scoll(obj,target,speed=1000){//滑动函数，滑动到target位置
                 // if(parseInt(getComputedStyle(obj,null)['marginLeft']) == target){
                 //     return
                 // }
                 this.isscolling = true;
-                obj.style.transition = 'margin-left 1s'
+                obj.style.transition = 'margin-left ' + speed + 'ms'
                 obj.style.marginLeft = target + 'px'
             },
             // move(obj,speed,target,callback) {
@@ -141,10 +146,12 @@
 <style scoped>
     #index{
         height: 10%;
-        margin-top: -7%;
+        position: absolute;
+        bottom: 5px;
+        left: 0;
+        right: 0;
         display: flex;
         justify-content: center;
-
     }
 
     #pics{
@@ -153,11 +160,12 @@
     }
 
     .ind_item{
-        height: 1rem;
-        width: 1rem;
+        height: .5rem;
+        width: .5rem;
         border-radius: 50%;
         background-color: lightgray;
         margin: 0 5%;
+
     }
 
     .active{
