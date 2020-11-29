@@ -136,7 +136,7 @@
         border-radius: 8%;
         line-height: 2rem;
         text-align: center;
-        margin: 0 auto;
+        margin: 0 auto 20px;
     }
 
     .toshop a{

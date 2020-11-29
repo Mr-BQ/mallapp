@@ -44,12 +44,11 @@
                             this.$emit('pullup')
                         })
                     }
-
                 })
             },200)
         },
         updated() {
-            this.refresh()
+            // this.scroll.refresh()
         },
         methods:{
             refresh(){

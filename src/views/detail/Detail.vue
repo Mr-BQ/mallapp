@@ -1,10 +1,11 @@
 <template>
     <div class="detail">
         <detail-nav></detail-nav>
-        <Scroll class="scroll" ref="scroll" :probetype="3">
+        <Scroll class="scroll" ref="scroll" :probetype="3" :pullup="false">
             <detail-lunbo v-if="topimages.length != 0" :items="topimages"></detail-lunbo>
             <detail-basic-info v-if="good != null" :good="good"></detail-basic-info>
             <shop-info :shop="shop" v-if="shop != null"></shop-info>
+            <detail-good-info :info="detailinfo" v-if="detailinfo != null" @loadimg="refreshbs"></detail-good-info>
         </Scroll>
     </div>
 
@@ -17,6 +18,7 @@
     import DetailBasicInfo from "./childcomponent/DetailBasicInfo";
     import ShopInfo from "./childcomponent/ShopInfo";
     import Scroll from "../../components/common/scroll/Scroll";
+    import DetailGoodInfo from "./childcomponent/DetailGoodInfo";
 
     export default {
         name: "Detail",
@@ -25,7 +27,8 @@
                 iid:null,
                 topimages:[],
                 good:null,
-                shop:null
+                shop:null,
+                detailinfo:null
             }
         },
         components:{
@@ -33,7 +36,8 @@
             DetailLunbo,
             DetailBasicInfo,
             ShopInfo,
-            Scroll
+            Scroll,
+            DetailGoodInfo
         },
         created() {
             this.iid = this.$route.params.iid
@@ -43,7 +47,13 @@
                 this.topimages.push(...data.itemInfo.topImages)
                 this.good = new Good(data.itemInfo,data.columns,data.shopInfo.services)
                 this.shop = new Shop(data.shopInfo)
+                this.detailinfo = data.detailInfo
             })
+        },
+        methods:{
+            refreshbs(){
+                this.$refs.scroll.refresh()
+            }
         }
     }
 </script>
