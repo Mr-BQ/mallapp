@@ -3,7 +3,7 @@
     <nav-bar class="navbar"><div slot="center">EMALL</div></nav-bar>
     <tab-control ref="tab2" class="tabcontrol2" v-show="isfixed" :list="['流行','新款','精选']" @tabclick="changegood"></tab-control>
     <Scroll class="content" ref="scroll" :probetype="3"
-            :pullupLoad="ispullUpLoad" @pullup="loadmore" @scrollContent="scrollcontent">
+            :pullup="ispullUpLoad" @pullup="loadmore" @scrollContent="scrollcontent">
       <homelunbo v-if="data != null" :list="data.banner.list"></homelunbo>
       <Recommend v-if="data != null" :recommend="data.recommend.list"></Recommend>
       <Fashion/>
@@ -41,8 +41,7 @@
               },
               curtab:'pop',
               isShowBackTop:false,
-              ispullUpLoad:false,
-              imginitial:false,
+              ispullUpLoad:true,
               taboffsetheight:0,
               isfixed:false
             }

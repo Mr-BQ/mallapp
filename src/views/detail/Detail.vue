@@ -1,9 +1,11 @@
 <template>
     <div class="detail">
         <detail-nav></detail-nav>
-        <detail-lunbo v-if="topimages.length != 0" :items="topimages"></detail-lunbo>
-        <detail-basic-info v-if="good != null" :good="good"></detail-basic-info>
-        <shop-info :shop="shop" v-if="shop != null"></shop-info>
+        <Scroll class="scroll" ref="scroll" :probetype="3">
+            <detail-lunbo v-if="topimages.length != 0" :items="topimages"></detail-lunbo>
+            <detail-basic-info v-if="good != null" :good="good"></detail-basic-info>
+            <shop-info :shop="shop" v-if="shop != null"></shop-info>
+        </Scroll>
     </div>
 
 </template>
@@ -14,6 +16,7 @@
     import {getDetail,Good,Shop} from "../../network/detail";
     import DetailBasicInfo from "./childcomponent/DetailBasicInfo";
     import ShopInfo from "./childcomponent/ShopInfo";
+    import Scroll from "../../components/common/scroll/Scroll";
 
     export default {
         name: "Detail",
@@ -29,7 +32,8 @@
             DetailNav,
             DetailLunbo,
             DetailBasicInfo,
-            ShopInfo
+            ShopInfo,
+            Scroll
         },
         created() {
             this.iid = this.$route.params.iid
@@ -40,13 +44,24 @@
                 this.good = new Good(data.itemInfo,data.columns,data.shopInfo.services)
                 this.shop = new Shop(data.shopInfo)
             })
-
         }
     }
 </script>
 
 <style scoped>
     .detail{
-        height: 2000px;
+       position: relative;
+        z-index: 9;
+        height: 100vh;
+
+    }
+    .scroll{
+        overflow: hidden;
+        background-color: #fff;
+        position: absolute;
+        top: 40px;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
 </style>
