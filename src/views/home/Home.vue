@@ -72,7 +72,7 @@
           }
           this.taboffsetheight = this.$refs.tab1.$el.offsetTop
         },
-    computed:{
+        computed:{
           showgood(){
             return this.goods[this.curtab].list
           }

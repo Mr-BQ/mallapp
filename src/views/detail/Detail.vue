@@ -8,6 +8,7 @@
             <detail-good-info :info="detailinfo" v-if="detailinfo != null" @loadimg="refreshbs"></detail-good-info>
             <detail-param-info :paraminfo="paraminfo" v-if="paraminfo != null"></detail-param-info>
             <detail-comment-info v-if="commentinfo != null" :commentinfo="commentinfo"></detail-comment-info>
+            <good-list v-if="recommend.length != 0" :goods="recommend"></good-list>
         </Scroll>
         <back-top  v-show="showbacktop" @click.native="backtop"></back-top>
     </div>
@@ -25,6 +26,8 @@
     import DetailParamInfo from "./childcomponent/DetailParamInfo";
     import BackTop from "../../components/content/backtop/BackTop";
     import DetailCommentInfo from "./childcomponent/DetailCommentInfo";
+    import {getRecommend} from "../../network/detail";
+    import GoodList from "../../components/content/GoodList/GoodList";
 
     export default {
         name: "Detail",
@@ -37,8 +40,8 @@
                 detailinfo:null,
                 paraminfo:null,
                 commentinfo:null,
-                showbacktop:false
-
+                showbacktop:false,
+                recommend:[]
             }
         },
         components:{
@@ -50,7 +53,8 @@
             DetailGoodInfo,
             BackTop,
             DetailParamInfo,
-            DetailCommentInfo
+            DetailCommentInfo,
+            GoodList
         },
         created() {
             this.iid = this.$route.params.iid
@@ -65,6 +69,9 @@
                 if(data.rate.cRate !== 0){
                     this.commentinfo = data.rate.list[0]
                 }
+            })
+            getRecommend().then(res=>{
+                this.recommend = res.data.list
             })
         },
         methods:{

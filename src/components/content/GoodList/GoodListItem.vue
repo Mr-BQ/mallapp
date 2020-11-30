@@ -1,6 +1,6 @@
 <template>
     <div class="goodlistitem" @click="todetail">
-        <img :src="good.show.img" alt="good.title" @load="imgload">
+        <img :src="imgurl" alt="good.title" @load="imgload">
         <div class="content">
             <p>{{good.title}}</p>
             <span class="price">¥{{good.price}}</span>
@@ -24,6 +24,11 @@
             },
             todetail(){
                 this.$router.push('/Detail/' + this.good.iid)
+            }
+        },
+        computed:{
+            imgurl(){
+                return this.good.show? this.good.show.img : this.good.image
             }
         }
     }
