@@ -10,6 +10,8 @@
 </template>
 
 <script>
+    import {debounce} from "../../../common/utils";
+
     export default {
         name: "GoodListItem",
         props:{
@@ -18,9 +20,19 @@
                 default:{}
             }
         },
+        data(){
+            return{
+                timer:null
+            }
+        },
         methods:{
             imgload(){
-                this.$bus.$emit('loadimg')
+                if(this.$route.path.indexOf('/Home') !== -1){
+                    this.$bus.$emit('loadimg')
+                }else{
+                    this.$bus.$emit('Detailloadimg')
+                }
+
             },
             todetail(){
                 this.$router.push('/Detail/' + this.good.iid)

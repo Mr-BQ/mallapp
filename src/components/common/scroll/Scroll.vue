@@ -52,7 +52,6 @@
         },
         methods:{
             refresh(){
-                console.log('refresh')
                 this.scroll && this.scroll.refresh()
             }
         }

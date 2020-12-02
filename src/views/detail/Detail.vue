@@ -1,14 +1,14 @@
 <template>
     <div class="detail">
-        <detail-nav></detail-nav>
+        <detail-nav ref="nav" @tabclick="tabclick"></detail-nav>
         <Scroll class="scroll" ref="scroll" :probetype="3" :pullup="false" @scrollContent="scrollcontent">
             <detail-lunbo v-if="topimages.length != 0" :items="topimages"></detail-lunbo>
             <detail-basic-info v-if="good != null" :good="good"></detail-basic-info>
             <shop-info :shop="shop" v-if="shop != null"></shop-info>
             <detail-good-info :info="detailinfo" v-if="detailinfo != null" @loadimg="refreshbs"></detail-good-info>
-            <detail-param-info :paraminfo="paraminfo" v-if="paraminfo != null"></detail-param-info>
-            <detail-comment-info v-if="commentinfo != null" :commentinfo="commentinfo"></detail-comment-info>
-            <good-list v-if="recommend.length != 0" :goods="recommend"></good-list>
+            <detail-param-info ref="params" :paraminfo="paraminfo" v-if="paraminfo != null"></detail-param-info>
+            <detail-comment-info ref="comment" v-if="commentinfo != null" :commentinfo="commentinfo"></detail-comment-info>
+            <good-list ref="recommend" v-if="recommend.length != 0" :goods="recommend"></good-list>
         </Scroll>
         <back-top  v-show="showbacktop" @click.native="backtop"></back-top>
     </div>
@@ -28,6 +28,7 @@
     import DetailCommentInfo from "./childcomponent/DetailCommentInfo";
     import {getRecommend} from "../../network/detail";
     import GoodList from "../../components/content/GoodList/GoodList";
+    import {debounce} from "../../common/utils";
 
     export default {
         name: "Detail",
@@ -41,7 +42,8 @@
                 paraminfo:null,
                 commentinfo:null,
                 showbacktop:false,
-                recommend:[]
+                recommend:[],
+                offtopYs:[]
             }
         },
         components:{
@@ -74,15 +76,41 @@
                 this.recommend = res.data.list
             })
         },
+        updated() {
+            let refresh = null
+            if(!refresh){
+                refresh = debounce(this.refreshbs,200)
+                this.$bus.$on('Detailloadimg',()=>{
+                    refresh()
+                })
+            }
+        },
         methods:{
             refreshbs(){
-                this.$refs.scroll.refresh()
+                this.offtopYs = []
+                this.offtopYs.push(0)
+                this.$refs.params && this.offtopYs.push(this.$refs.params.$el.offsetTop)
+                this.$refs.comment && this.offtopYs.push(this.$refs.comment.$el.offsetTop)
+                this.$refs.recommend && this.offtopYs.push(this.$refs.recommend.$el.offsetTop)
+                this.$refs.scroll && this.$refs.scroll.refresh()
             },
             scrollcontent(position){
                 this.showbacktop = (-position.y) > 2000
+                if(-position.y >= this.offtopYs[3]){
+                    this.$refs.nav.curindex = 3
+                }else if(-position.y >= this.offtopYs[2]){
+                    this.$refs.nav.curindex = 2
+                }else if(-position.y >= this.offtopYs[1]){
+                    this.$refs.nav.curindex = 1
+                }else{
+                    this.$refs.nav.curindex = 0
+                }
             },
             backtop(){
                 this.$refs.scroll.scroll.scrollTo(0,0,1000)
+            },
+            tabclick(index){
+                this.$refs.scroll.scroll.scrollTo(0,-this.offtopYs[index],300)
             }
         }
     }

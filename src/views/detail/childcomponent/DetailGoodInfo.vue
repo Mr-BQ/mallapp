@@ -23,10 +23,13 @@
             info:{
                 type:Object,
                 default(){
-                    return{
-                        load:null
-                    }
+                    return{}
                 }
+            }
+        },
+        data(){
+            return{
+                load:null
             }
         },
         methods:{

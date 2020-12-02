@@ -28,6 +28,7 @@
         methods:{
             itemclick(index){
                 this.curindex = index
+                this.$emit('tabclick',index)
             },
             back(){
                 this.$router.back()
