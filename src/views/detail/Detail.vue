@@ -10,6 +10,7 @@
             <detail-comment-info ref="comment" v-if="commentinfo != null" :commentinfo="commentinfo"></detail-comment-info>
             <good-list ref="recommend" v-if="recommend.length != 0" :goods="recommend"></good-list>
         </Scroll>
+        <detail-tool-bar></detail-tool-bar>
         <back-top  v-show="showbacktop" @click.native="backtop"></back-top>
     </div>
 
@@ -29,6 +30,7 @@
     import {getRecommend} from "../../network/detail";
     import GoodList from "../../components/content/GoodList/GoodList";
     import {debounce} from "../../common/utils";
+    import DetailToolBar from "./childcomponent/DetailToolBar";
 
     export default {
         name: "Detail",
@@ -56,7 +58,8 @@
             BackTop,
             DetailParamInfo,
             DetailCommentInfo,
-            GoodList
+            GoodList,
+            DetailToolBar
         },
         created() {
             this.iid = this.$route.params.iid
@@ -111,6 +114,14 @@
             },
             tabclick(index){
                 this.$refs.scroll.scroll.scrollTo(0,-this.offtopYs[index],300)
+            },
+            addToCart(){
+                const product = {}
+                product.image = this.topimages[0]
+                product.title = this.good.title
+                product.desc = this.good.desc
+                product.price = this.good.realPrice
+                product.iid = this.iid
             }
         }
     }
@@ -119,7 +130,7 @@
 <style scoped>
     .detail{
        position: relative;
-        z-index: 9;
+        /*z-index: 9;*/
         height: 100vh;
 
     }
@@ -127,10 +138,10 @@
         overflow: hidden;
         background-color: #fff;
         position: absolute;
-        top: 40px;
+        top: 44px;
         left: 0;
         right: 0;
-        bottom: 0;
+        bottom: 49px;
     }
 
 </style>
