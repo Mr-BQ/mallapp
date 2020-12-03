@@ -10,7 +10,7 @@
             <detail-comment-info ref="comment" v-if="commentinfo != null" :commentinfo="commentinfo"></detail-comment-info>
             <good-list ref="recommend" v-if="recommend.length != 0" :goods="recommend"></good-list>
         </Scroll>
-        <detail-tool-bar></detail-tool-bar>
+        <detail-tool-bar @addtocart="addToCart"></detail-tool-bar>
         <back-top  v-show="showbacktop" @click.native="backtop"></back-top>
     </div>
 
@@ -122,6 +122,7 @@
                 product.desc = this.good.desc
                 product.price = this.good.realPrice
                 product.iid = this.iid
+                this.$store.dispatch('addTocart',product)
             }
         }
     }
