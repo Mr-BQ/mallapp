@@ -7,14 +7,16 @@
 <script>
     export default {
         name: "CheckBox",
-        data(){
-            return{
-                checked:false
-            }
+        props:{
+          checked:{
+            type:Boolean,
+            default:false
+          }
         },
         methods:{
             checkclick(){
-                this.checked = !this.checked
+
+                this.$emit('checkclick')
             }
         }
     }

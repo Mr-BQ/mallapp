@@ -1,7 +1,7 @@
 <template>
     <div class="cartgooditem">
         <div class="item">
-            <check-box class="check"></check-box>
+            <check-box class="check" :checked="good.checked" @checkclick="checkClick"></check-box>
             <div class="img"><img :src="good.image" alt="img"></div>
             <div class="text">
                 <div class="title">{{good.title}}</div>
@@ -29,6 +29,12 @@
         },
         components:{
             CheckBox
+        },
+        methods:{
+          checkClick(){
+            this.good.checked = !this.good.checked
+            // this.$store.commit('checkchange',this.good)
+          }
         }
     }
 </script>
