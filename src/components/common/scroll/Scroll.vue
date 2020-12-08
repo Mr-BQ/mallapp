@@ -52,7 +52,6 @@
         },
         methods:{
             refresh(){
-              console.log('load img');
               this.scroll && this.scroll.refresh()
             }
         }

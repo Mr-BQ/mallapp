@@ -32,6 +32,7 @@
     import {debounce} from "../../common/utils";
     import DetailToolBar from "./childcomponent/DetailToolBar";
 
+
     export default {
         name: "Detail",
         data(){
@@ -123,7 +124,7 @@
                 product.price = this.good.realPrice
                 product.iid = this.iid
                 this.$store.dispatch('addTocart',product).then(res=>{
-                  console.log(res)
+                  this.$toast.show(res)
                 })
             }
         }

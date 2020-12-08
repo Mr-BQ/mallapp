@@ -5,7 +5,7 @@
       全选
     </div>
     <div class="price">合计：¥ {{totalprice}}</div>
-    <div class="cal">去计算({{callength}})</div>
+    <div class="cal" @click="calclick">去计算({{callength}})</div>
   </div>
 </template>
 
@@ -30,7 +30,11 @@ export default {
           this.$store.commit('selectAllChange', {item,check:true})
         })
       }
-
+    },
+    calclick(){
+      if(this.$store.state.cartlist.every(item=>!item.checked)){
+        this.$toast.show('未选择商品！')
+      }
     }
   },
   computed:{

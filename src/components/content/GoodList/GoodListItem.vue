@@ -1,6 +1,6 @@
 <template>
     <div class="goodlistitem" @click="todetail">
-        <img :src="imgurl" alt="good.title" @load="imgload">
+        <img v-lazy="imgurl" alt="good.title" @load="imgload">
         <div class="content">
             <p>{{good.title}}</p>
             <span class="price">¥{{good.price}}</span>
@@ -28,7 +28,6 @@
         methods:{
             imgload(){
               if(this.$route.path.indexOf('/home') !== -1){
-                    console.log('home load img');
                     this.$bus.$emit('loadimg')
                 }else{
                     this.$bus.$emit('Detailloadimg')
