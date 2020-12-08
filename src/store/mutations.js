@@ -8,5 +8,8 @@ export default {
     },
     checkchange(state,payload){
         payload.checked = !payload.checked
+    },
+    selectAllChange(state,payload){
+        payload.item.checked = payload.check
     }
 }

@@ -17,13 +17,20 @@ export default {
     CheckBox
   },
   data(){
-    return{
-      selectAll:false
-    }
+    return{}
   },
   methods:{
     selectallclick(){
-      this.selectAll = !this.selectAll
+      if(this.selectAll){
+        this.$store.state.cartlist.forEach(item => {
+          this.$store.commit('selectAllChange', {item,check:false})
+        })
+      }else{
+        this.$store.state.cartlist.forEach(item => {
+          this.$store.commit('selectAllChange', {item,check:true})
+        })
+      }
+
     }
   },
   computed:{
@@ -34,6 +41,11 @@ export default {
     },
     callength(){
       return this.$store.state.cartlist.filter(item => item.checked).length
+    },
+    selectAll(){
+      if(this.$store.state.cartlist.length === 0)
+        return false
+      return this.$store.state.cartlist.every(item => item.checked)
     }
   }
 

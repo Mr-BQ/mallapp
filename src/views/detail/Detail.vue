@@ -122,7 +122,9 @@
                 product.desc = this.good.desc
                 product.price = this.good.realPrice
                 product.iid = this.iid
-                this.$store.dispatch('addTocart',product)
+                this.$store.dispatch('addTocart',product).then(res=>{
+                  console.log(res)
+                })
             }
         }
     }
