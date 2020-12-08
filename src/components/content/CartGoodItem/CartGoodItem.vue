@@ -1,7 +1,9 @@
 <template>
     <div class="cartgooditem">
         <div class="item">
-            <check-box class="check" :checked="good.checked" @checkclick="checkClick"></check-box>
+            <div class="checkbox">
+              <check-box class="check" :checked="good.checked" @checkclick="checkClick"></check-box>
+            </div>
             <div class="img"><img :src="good.image" alt="img"></div>
             <div class="text">
                 <div class="title">{{good.title}}</div>
@@ -32,8 +34,7 @@
         },
         methods:{
           checkClick(){
-            this.good.checked = !this.good.checked
-            // this.$store.commit('checkchange',this.good)
+            this.$store.commit('checkchange',this.good)
           }
         }
     }
@@ -44,9 +45,15 @@
         display: flex;
 
     }
-    .check{
-        align-self: center;
+    .checkbox{
+        width: 20%;
         margin-left: 5px;
+        display: flex;
+        align-items: center;
+    }
+    .check{
+      height: 20px;
+      width: 20px;
     }
     .img{
         margin:10px;

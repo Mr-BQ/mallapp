@@ -27,7 +27,7 @@
         },
         methods:{
             imgload(){
-              if(this.$route.path.indexOf('/Home') !== -1){
+              if(this.$route.path.indexOf('/home') !== -1){
                     console.log('home load img');
                     this.$bus.$emit('loadimg')
                 }else{

@@ -15,7 +15,6 @@
         },
         methods:{
             checkclick(){
-
                 this.$emit('checkclick')
             }
         }
@@ -23,16 +22,22 @@
 </script>
 
 <style scoped>
+    .checkbox{
+      width: 20px;
+      height: 20px;
+    }
     .img{
         background-image: url("~assets/img/check/uncheck.svg");
-        width: 20px;
-        height: 20px;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100%;
         background-size: 100%;
     }
     .check{
         background-image: url("~assets/img/check/check.svg");
-        width: 20px;
-        height: 20px;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100%;
         background-size: 100%;
     }
 </style>

@@ -8,6 +8,7 @@
                 <cart-good-item v-for="(item,index) in $store.state.cartlist" :good="item" :key="index"></cart-good-item>
             </div>
         </scroll>
+      <cart-bottom-bar></cart-bottom-bar>
     </div>
 </template>
 
@@ -15,12 +16,14 @@
     import NavBar from "../../components/common/navbar/NavBar";
     import CartGoodItem from "../../components/content/CartGoodItem/CartGoodItem";
     import Scroll from "../../components/common/scroll/Scroll";
+    import CartBottomBar from "@/views/cart/childComponents/CartBottomBar";
     export default {
         name: "Cart",
         components:{
             NavBar,
             CartGoodItem,
-            Scroll
+            Scroll,
+            CartBottomBar
         },
         activated() {
             console.log('cart actived');
@@ -39,8 +42,8 @@
     }
     .scroll{
         position: absolute;
-        top: 44px;
-        bottom: 49px;
+        top: 40px;
+        bottom: 89px;
         left: 0;
         right: 0;
         overflow: hidden;

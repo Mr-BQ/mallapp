@@ -13,16 +13,16 @@ VueRouter.prototype.push = function push(location) {
 const routes = [
   {
     path: '/',
-    redirect:'/Home'
+    redirect:'/home'
     // component: () => import('../views/home/Home')
   },
   {
-    path: '/Home',
+    path: '/home',
     name: 'Home',
     component: () => import('../views/home/Home')
   },
   {
-    path: '/Category',
+    path: '/category',
     name: 'Category',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -30,17 +30,17 @@ const routes = [
     component: () => import('../views/category/Category')
   },
   {
-    path: '/Cart',
+    path: '/cart',
     name: 'Cart',
     component: () => import('../views/cart/Cart')
   },
   {
-    path: '/Profile',
+    path: '/profile',
     name: 'Profile',
     component: () => import('../views/profile/Profile')
   },
   {
-    path: '/Detail/:iid',
+    path: '/detail/:iid',
     name: 'Detail',
     component: () => import('../views/detail/Detail')
   }
