@@ -21,6 +21,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 # 项目介绍
 
 ## 主页
-<img src="img/home.png" alt="home " style="zoom:60%;" />
-<img src="img/home1.png" alt="home1" style="zoom:60%;" />git 
+<img src="img/home.png" alt="home " style="width:50%;" />
+<img src="img/home1.png" alt="home1" style="width:50%;" />git 
 
